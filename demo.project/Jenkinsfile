@@ -2,6 +2,7 @@ pipeline{
     agent any
     stages{
         stage('Build'){
+            agent { label 'java-agent'}
             steps{
                 dir('demo.project'){
                     echo 'building application'
@@ -10,6 +11,7 @@ pipeline{
             }
         }
         stage('test'){
+            agent {label 'testing-agent'}
             steps{
                 dir('demo.project'){
                     echo 'testing application throughly'
@@ -18,6 +20,7 @@ pipeline{
             }
         }
         stage('deploye'){
+            agent {label 'deployment-agent'}
             steps{
                 dir('demo.project'){
                     echo 'deployinh th application'
