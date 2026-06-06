@@ -3,17 +3,26 @@ pipeline{
     stages{
         stage('Build'){
             steps{
-                echo 'building application'
+                dir('demo.project'){
+                    echo 'building application'
+                }
+                
             }
         }
         stage('test'){
             steps{
-                echo 'testing application throughly'
+                dir('demo.project'){
+                    echo 'testing application throughly'
+                }
+                
             }
         }
         stage('deploye'){
             steps{
-                echo 'deployinh th application'
+                dir('demo.project'){
+                    echo 'deployinh th application'
+                }
+                
             }
         }
     }
