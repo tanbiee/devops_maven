@@ -1,0 +1,26 @@
+pipeline{
+    agent {label 'built-in'}
+    stages{
+        stage('build and test'){
+            steps{
+                dir('eight.com'){
+                    echo "compiling and verifying application securely..."
+                    echo "building application"
+                }
+                
+            }
+        }
+        stage('secure Deploy'){
+            environment {
+                DEPLOY_TOKEN = credentials('PROD_DEPLOY_KEY')
+            }
+            steps{
+                dir('eight.com'){
+                    echo 'Injecting masked envioment credentials...'
+                    echo 'deploying application to production server using secure token'
+                    echo 'deploymnet completed successfully!'
+                }
+            }
+        }
+    }
+}
