@@ -1,0 +1,50 @@
+pipeline{
+    agent {label 'built-in'}
+    environment{
+        APP_NAME = 'four.five'
+    }
+    parameters{
+        
+        choice(name: 'DEPLOY_ENV', choices: ['staging', 'production'], description: 'select the deployment envionment...')
+        string(name: 'version', defaultValue: '1.0.0', description: 'enter the version to be deployed...')
+        booleanParam(name: 'RUN_TEST', defaultValue: true, description: 'run tests before deployment')
+
+    }
+    stages{
+        stage('build'){
+            steps{
+                dir('four.five'){
+                    echo 'running building stage...'
+                    echo 'compiling and validating the stage...'
+                }
+            }
+        }   
+        stage('test'){
+            steps{
+                dir('four.five'){
+                    echo 'this is the test phase'
+                    echo 'testing the repository....'
+                }
+            }
+        }
+        stage('deploy'){
+            steps{
+                dir('four.five'){
+                    echo 'this is the last step of deployment'
+                    echo 'deployed done'
+                }
+            }
+        }
+    }
+    post{
+        always{
+            echo "your process has successfully done by always"
+        }
+        success{
+            echo "this is the code of success"
+        }
+        failure{
+            echo "this is the code for erro"
+        }
+    }
+}
