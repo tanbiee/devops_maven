@@ -3,7 +3,7 @@ pipeline {
     environment {
         REGISTRY_CREDENTIALS = credentials('docker-hub-creds')
         REGISTRY_URL = 'docker.io'
-        IMAGE_NAME = "tanbieee/my-two-demo-project"
+        IMAGE_NAME = "tanbiee/my-two-demo-project"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
     stages{
@@ -35,7 +35,7 @@ pipeline {
             steps{
                 dir('two.demo.project'){
                     echo 'logging in to Docker registry...'
-                    bat 'echo %REGISTRY_CREDENTIALS_PSW%| docker login %REGISTRY_URL% -u %REGISTRY_CREDENTIALS_USR% --password-stdin'
+                    bat 'docker login %REGISTRY_URL% -u %REGISTRY_CREDENTIALS_USR% -p %REGISTRY_CREDENTIALS_PSW%'
                     echo 'pushing the docker image to registry...'
                     bat "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
                     bat "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
