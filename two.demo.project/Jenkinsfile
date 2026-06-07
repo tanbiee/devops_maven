@@ -23,25 +23,29 @@ pipeline{
                 }
             }
         }
-        stage('Docker Build Tag & Push'){
-            steps{
-                script{
-                    withEnv({
-                        'DOCKER_USER=tanbieee',
-                        'DOCKER_PASS=T@nvi_2004'
-                    }){
-                        dir('two.demo.project'){
-                            echo 'loggin into DOcker hub...'
-                            sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
-                            echo 'Building the docker image...'
-                            def myImage = docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
-                            echo 'pusing the image to dockr hub...'
-                            myImage.push()
-                        }
+                stage('Docker Build Tag & Push') {
+            steps {
+                script {
+                    dir('two.demo.project') {
+                        echo 'Logging into Docker Hub...'
+                        // Hardcoding the login string directly into the shell execution
+                        sh "echo 'your_real_dockerhub_password_or_token' | docker login -u tanbieee --password-stdin"
+
+                        echo 'Building the Docker Image...'
+                        def myImage = docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
+
+                        echo 'Pushing the image to Docker Hub...'
+                        myImage.push()
+                        
+                        echo 'Updating the latest tag...'
+                        myImage.push('latest')
+                        
+                        echo 'Logging out...'
+                        sh "docker logout"
                     }
                 }
-                
             }
-        }
+        }       
+        
     }
 }
