@@ -1,0 +1,30 @@
+pipeline{
+    agent any
+    tools{
+        maven 'maven3'
+    }
+    stages{
+        stage('maven build and test'){\
+            steps{
+                dir('nine.com'){
+                    bat 'mvn clean package'
+                }
+
+            }
+            
+        }
+    }
+    post{
+        always{
+            dir('nine.com'){
+                junit 'target/surefire-reports/*.xml'
+                jacoco()
+            }
+        }
+        success{
+            dir('nine.com'){
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
+    }
+}
