@@ -3,7 +3,7 @@ pipeline {
     environment {
         REGISTRY_CREDENTIALS = credentials('docker-hub-creds')
         REGISTRY_URL = 'docker.io'
-        IMAGE_NAME = "tanbiee/my-two-demo-project"
+        IMAGE_NAME = "tanbieee/my-two-demo-project"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
     stages{
