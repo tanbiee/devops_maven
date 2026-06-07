@@ -8,17 +8,6 @@ pipeline{
                 }
             }
         }
-        stage('build & test'){
-            steps{
-                dir('seven.com'){
-                    echo 'running building stage in devops...'
-                    echo 'compiling and validating the stage...'
-                    bat 'mvn clean package -DskipTests'
-                    echo 'this is the test phase in devops...'
-                    echo 'testing the repository....'
-                }
-            }
-        }
         stage('deploy'){
             steps{
                 dir('seven.com'){
