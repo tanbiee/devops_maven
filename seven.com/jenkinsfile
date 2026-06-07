@@ -25,23 +25,6 @@ pipeline{
                 }
             }
         }
-        stage('Docker Build Tag & Push'){
-            steps{
-                dir('seven.com'){
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                        echo 'Building the Docker Image...'
-                        bat "docker build -t tanbieee/my-seven-com:%BUILD_NUMBER% ."
-
-                        echo 'Tagging image as latest...'
-                        bat "docker tag tanbieee/my-seven-com:%BUILD_NUMBER% tanbieee/my-seven-com:latest"
-                        echo 'Pushing build number tag...'
-                        bat "docker push tanbieee/my-seven-com:%BUILD_NUMBER%"
-
-                        echo 'Pushing latest tag...'
-                        bat "docker push tanbieee/my-seven-com:latest"
-                    }
-                }
-            }
-        }
+        
     }
 }
