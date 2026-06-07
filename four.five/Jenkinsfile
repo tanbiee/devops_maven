@@ -14,7 +14,7 @@ pipeline{
         stage('build'){
             steps{
                 dir('four.five'){
-                    echo 'running building stage...'
+                    echo 'running building stage in devops branch...'
                     echo 'compiling and validating the stage...'
                 }
             }
@@ -22,7 +22,7 @@ pipeline{
         stage('test'){
             steps{
                 dir('four.five'){
-                    echo 'this is the test phase'
+                    echo 'this is the test phase in devops branch...'
                     echo 'testing the repository....'
                 }
             }
@@ -30,7 +30,7 @@ pipeline{
         stage('deploy'){
             steps{
                 dir('four.five'){
-                    echo 'this is the last step of deployment'
+                    echo 'this is the last step of deployment in devops branch...'
                     echo 'deployed done'
                 }
             }
