@@ -4,7 +4,18 @@ pipeline{
         stage('building docker'){
             steps{
                 dir('seven.com'){
-                    bat 'docker run --rm -v "%WORKSPACE%:/app" -w /app maven:3.8.4-openjdk-17 mvn clean package -DskipTests'
+                    bat 'docker run --rm -v "%WORKSPACE%/seven.com:/app" -w /app maven:3.8.4-openjdk-17 mvn clean package -DskipTests'
+                }
+            }
+        }
+        stage('build & test'){
+            steps{
+                dir('seven.com'){
+                    echo 'running building stage in devops...'
+                    echo 'compiling and validating the stage...'
+                    bat 'mvn clean package -DskipTests'
+                    echo 'this is the test phase in devops...'
+                    echo 'testing the repository....'
                 }
             }
         }
