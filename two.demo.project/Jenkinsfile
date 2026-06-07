@@ -26,9 +26,15 @@ pipeline {
             steps {
                 dir('two.demo.project') {
                     echo 'Logging into Docker Hub...'
-                    // Secures your secret key natively using your Jenkins credential entry
-                    withCredentials([string(credentialsId: 'DOCKER_PASS', variable: 'DOCKER_PASS')]) {
-                        bat "(echo %DOCKER_PASS%)| docker login -u tanbieee --password-stdin"
+                    
+                    // This block strips any hidden trailing spaces or returns on Windows
+                    withCredentials([string(credentialsId: 'DOCKER_PASS', variable: 'RAW_PASS')]) {
+                        bat """
+                        @echo off
+                        <nul set /p="%RAW_PASS%" > token.txt
+                        type token.txt | docker login -u tanbieee --password-stdin
+                        del token.txt
+                        """
                     }
 
                     echo 'Building the Docker Image...'
@@ -48,5 +54,6 @@ pipeline {
                 }
             }
         }
+
     }
 }
