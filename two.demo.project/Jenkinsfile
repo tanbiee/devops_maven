@@ -19,7 +19,7 @@ pipeline {
             steps{
                 dir('two.demo.project'){
                     echo 'running build and test stages...'
-                        bat 'mvn -f "%WORKSPACE%/path/to/pom.xml" clean package -DskipTests'
+                        bat 'mvn clean package -DskipTests'
                 }
             }
         }
