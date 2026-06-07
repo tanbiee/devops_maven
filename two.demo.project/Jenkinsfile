@@ -1,0 +1,41 @@
+pipeline{
+    agent {label 'built-in'}
+    environment{
+        DOCKER_IMAGE = "tanbieee/my-two-demo-project"
+        REGISTRY_CREDENTIALS = credentials('dockerhub-cred')
+    }
+    stages{
+        stage('build & test'){
+            steps{
+                dir('two.demo.project'){
+                    echo 'running building stage in devops branch...'
+                    echo 'compiling and validating the stage...'
+                    echo 'this is the test phase in devops branch...'
+                    echo 'testing the repository....'
+                }
+            }
+        }
+        stage('deploy'){
+            steps{
+                dir('two.demo.project'){
+                    echo 'this is the last step of deployment in devops branch...'
+                    echo 'deployed done'
+                }
+            }
+        }
+        stage('Docker Build Tag & Push'){
+            steps{
+                withDockerRegistry([credentialsId: 'dockerhub-cred', url: '']){
+                    dir(two.demo.project){
+                        def myImage = docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
+
+                        echo 'pushing the image to docker hub...'
+                        myImage.push()
+                        echo 'updating the latest tag...'
+                        myImage.push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
