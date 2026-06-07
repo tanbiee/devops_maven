@@ -1,0 +1,47 @@
+pipleline{
+    agent{
+        docker{
+            image 'maven:3.9-ecliple-temurin-17'
+
+        }
+    }
+    stages{
+        stage('build & test'){
+            steps{
+                dir('seven.com'){
+                    echo 'running building stage in devops...'
+                    echo 'compiling and validating the stage...'
+                    bat 'mvn clean package -DskipTests'
+                    echo 'this is the test phase in devops...'
+                    echo 'testing the repository....'
+                }
+            }
+        }
+        stage('deploy'){
+            steps{
+                dir('seven.com'){
+                    echo 'this is the last step of deployment in devops...'
+                    echo 'deployed done'
+                }
+            }
+        }
+        stage('Docker Build Tag & Push'){
+            steps{
+                dir('seven.com'){
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                        echo 'Building the Docker Image...'
+                        bat "docker build -t tanbieee/my-seven-com:%BUILD_NUMBER% ."
+
+                        echo 'Tagging image as latest...'
+                        bat "docker tag tanbieee/my-seven-com:%BUILD_NUMBER% tanbieee/my-seven-com:latest"
+                        echo 'Pushing build number tag...'
+                        bat "docker push tanbieee/my-seven-com:%BUILD_NUMBER%"
+
+                        echo 'Pushing latest tag...'
+                        bat "docker push tanbieee/my-seven-com:latest"
+                    }
+                }
+            }
+        }
+    }
+}
