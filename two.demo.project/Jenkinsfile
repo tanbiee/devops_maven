@@ -9,6 +9,7 @@ pipeline {
                 dir('two.demo.project') {
                     echo 'running building stage in devops branch...'
                     echo 'compiling and validating the stage...'
+                    bat "mvn clean package -DskipTests"
                     echo 'this is the test phase in devops branch...'
                     echo 'testing the repository....'
                 }
