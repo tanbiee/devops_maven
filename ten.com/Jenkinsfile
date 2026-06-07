@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+    triggers{
+        githubpush()
+    }
+    stages{
+        stage('pull and verify'){
+            steps{
+                dir('ten.com'){
+                    checkout scm
+                }
+            }
+        }
+        stage('package and containerized'){
+            stpes{
+                dir('ten.com'){
+                    echo "packageing and pushing to registryy...."
+                }
+            }
+        }
+        stage('deploy and cloud'){
+            steps{
+                dir('ten.com'){
+                    echo 'ssh to cloiid server -> pull image -> restaer service'
+                }
+            }
+        }
+    }
+}
