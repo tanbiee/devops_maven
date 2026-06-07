@@ -26,14 +26,17 @@ pipeline{
         stage('Docker Build Tag & Push'){
             steps{
                 script{
-                    withDockerRegistry([credentialsId: 'dockerhub-cred', url: '']){
+                    withEnv({
+                        'DOCKER_USER=tanbieee',
+                        'DOCKER_PASS=T@nvi_2004'
+                    }){
                         dir('two.demo.project'){
+                            echo 'loggin into DOcker hub...'
+                            sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                            echo 'Building the docker image...'
                             def myImage = docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
-
-                            echo 'pushing the image to docker hub...'
+                            echo 'pusing the image to dockr hub...'
                             myImage.push()
-                            echo 'updating the latest tag...'
-                            myImage.push('latest')
                         }
                     }
                 }
